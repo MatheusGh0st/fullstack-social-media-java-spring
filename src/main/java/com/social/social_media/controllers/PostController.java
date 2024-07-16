@@ -1,43 +1,45 @@
 package com.social.social_media.controllers;
 
 import com.social.social_media.dtos.PostRecordDto;
+import com.social.social_media.dtos.PostUpdateRecordDto;
 import com.social.social_media.models.Post;
-import com.social.social_media.repositories.PostRepository;
-import com.social.social_media.repositories.UserRepository;
+import com.social.social_media.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class PostController {
     @Autowired
-    PostRepository postRepository;
-
-    @Autowired
-    UserRepository userRepository;
+    PostService postService;
 
     @PostMapping("/test-request")
     public ResponseEntity<String> testPostRequest() {
-        return ResponseEntity.ok("POST POST request successful");
+        return ResponseEntity.ok("POST request successful");
     }
 
     @GetMapping("/post")
     public ResponseEntity<List<Post>> getAllPostUserId() {
-        List<Post> posts = postRepository.findAll();
-        return ResponseEntity.status(HttpStatus.FOUND).body(posts);
+        return ResponseEntity.status(HttpStatus.OK).body(postService.getAllPostUser());
     }
 
     @PostMapping("/post")
     public ResponseEntity<Post> savePost(@RequestBody PostRecordDto postRecordDto) {
-        var user = userRepository.findById(postRecordDto.userId()).orElseThrow();
-        var post = new Post(postRecordDto.description(), postRecordDto.imgUrl(), user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(postService.savePost(postRecordDto));
+    }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(postRepository.save(post));
+    @PutMapping("/post/{id}")
+    public ResponseEntity<Post> updatePost(@PathVariable UUID id, @RequestBody PostUpdateRecordDto postUpdateRecordDto) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(postService.updatePost(id, postUpdateRecordDto));
+    }
+
+    @DeleteMapping("/post/{id}")
+    public ResponseEntity<String> deletePost(@PathVariable UUID id) {
+        postService.deletePost(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Post delete successfully");
     }
 }

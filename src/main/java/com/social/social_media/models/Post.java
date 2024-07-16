@@ -31,4 +31,12 @@ public class Post implements Serializable {
         this.imgUrl = imgUrl;
         this.user = user;
     }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 }
