@@ -28,7 +28,7 @@ public class PostService {
     public Post savePost(PostRecordDto postRecordDto) {
         var user = userRepository.findById(postRecordDto.userId());
         if (user.isEmpty()) {
-            return new Post();
+            return null;
         }
         var post = new Post(postRecordDto.description(), postRecordDto.imgUrl(), user.get());
 

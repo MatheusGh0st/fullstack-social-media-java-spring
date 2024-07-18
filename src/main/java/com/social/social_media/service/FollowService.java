@@ -28,7 +28,7 @@ public class FollowService {
         var userFollow = userRepository.findById(followRecordDTO.followerId());
         var userFollower = userRepository.findById(followRecordDTO.followeeId());
         if (userFollow.isEmpty() || userFollower.isEmpty()) {
-            var follow = new Follow();
+            return null;
         }
         var follow = new Follow(Follow.FollowStatus.ACCEPTED, userFollow.get(), userFollower.get());
 
