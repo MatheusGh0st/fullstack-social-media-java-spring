@@ -49,23 +49,11 @@ public class Comment implements Serializable {
         return userId;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
-    }
-
     public Post getPostId() {
         return postId;
     }
 
-    public void setPostId(Post postId) {
-        this.postId = postId;
-    }
-
     public UUID getIdComment() {
         return idComment;
-    }
-
-    public void setIdComment(UUID idComment) {
-        this.idComment = idComment;
     }
 }
