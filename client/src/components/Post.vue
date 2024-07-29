@@ -56,9 +56,10 @@
           </div>
         </div>
       </div>
+      <Comments />
   </div>
 </template>
 
 <script setup>
-  
+import Comments from "./Comments.vue";
 </script>
