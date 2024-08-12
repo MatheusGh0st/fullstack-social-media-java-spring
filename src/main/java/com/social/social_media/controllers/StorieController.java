@@ -1,6 +1,7 @@
 package com.social.social_media.controllers;
 
 import com.social.social_media.dtos.StorieRecordDTO;
+import com.social.social_media.dtos.StorieUpdateRecordDTO;
 import com.social.social_media.models.Storie;
 import com.social.social_media.service.StorieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,8 @@ public class StorieController {
     }
 
     @PutMapping("/storie/{id}")
-    public ResponseEntity<Storie> updateStorie(@PathVariable UUID id, @RequestBody StorieRecordDTO storieRecordDTO) {
-        return ResponseEntity.status(HttpStatus.OK).body(storieService.updateStorie(storieRecordDTO));
+    public ResponseEntity<Storie> updateStorie(@PathVariable UUID id, @RequestBody StorieUpdateRecordDTO storieUpdateRecordDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(storieService.updateStorie(id, storieUpdateRecordDTO));
     }
 
     @DeleteMapping("/storie/{id}")

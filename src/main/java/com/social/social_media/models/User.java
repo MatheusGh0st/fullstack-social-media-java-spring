@@ -31,6 +31,33 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> posts;
 
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+    private List<Like> likes;
+
+    @OneToMany(mappedBy = "followerId", cascade = CascadeType.ALL)
+    private List<Follow> followers;
+
+    @OneToMany(mappedBy = "followeeId", cascade = CascadeType.ALL)
+    private List<Follow> followings;
+
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    private List<FollowRequest> followRequestsSent;
+
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
+    private List<FollowRequest> followRequestsReceived;
+
+    @OneToMany(mappedBy = "blocker", cascade = CascadeType.ALL)
+    private List<Block> blocks;
+
+    @OneToMany(mappedBy = "blocked", cascade = CascadeType.ALL)
+    private List<Block> blockedBy;
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+    private List<Storie> stories;
+
     public String getPassword() {
         return this.password;
     }

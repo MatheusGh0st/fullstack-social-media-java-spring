@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -24,6 +25,9 @@ public class Comment implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User userId;
+
+    @OneToMany(mappedBy = "commentId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Like> likes;
 
     private String content;
     private LocalTime createAt;
@@ -55,5 +59,9 @@ public class Comment implements Serializable {
 
     public UUID getIdComment() {
         return idComment;
+    }
+
+    public List<Like> getLikes() {
+        return likes;
     }
 }
