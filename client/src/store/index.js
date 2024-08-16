@@ -27,7 +27,6 @@ const store = createStore({
   actions: {
     async loginUser({ commit }, { email, password }) {
       try {
-        console.log(APP_HOST);
         const response = await axios.post(
           `${APP_HOST}/api/auth/login`,
           {
@@ -39,7 +38,9 @@ const store = createStore({
           }
         );
         const { token } = response.data;
+        const { userId } = response.data;
         const userIsLogged = token !== null;
+        commit("setUserId", userId);
         commit("setAccessToken", token);
         commit("setIsLogged", userIsLogged);
       } catch (error) {

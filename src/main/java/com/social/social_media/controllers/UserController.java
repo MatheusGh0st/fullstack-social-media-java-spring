@@ -1,5 +1,6 @@
 package com.social.social_media.controllers;
 
+import com.social.social_media.config.CustomUserDetails;
 import com.social.social_media.config.JwtTokenProvider;
 import com.social.social_media.dtos.LoginRequest;
 import com.social.social_media.dtos.LoginResponse;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -54,8 +57,12 @@ public class UserController {
         Authentication authentication = authenticationManager.authenticate(authToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        UUID userId = customUserDetails.getUser().getIdUser();
+
         String token = jwtTokenProvider.generateToken(authentication);
 
-        return ResponseEntity.ok(new LoginResponse(token));
+        return ResponseEntity.ok(new LoginResponse(token, userId));
     }
 }

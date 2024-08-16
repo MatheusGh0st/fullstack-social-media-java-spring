@@ -5,7 +5,9 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -58,6 +60,18 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
     private List<Storie> stories;
 
+    @ManyToMany(fetch = FetchType.EAGER) // Fetch roles eagerly
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
+    public UUID getIdUser() {
+        return idUser;
+    }
+
     public String getPassword() {
         return this.password;
     }
@@ -68,5 +82,13 @@ public class User implements Serializable {
 
     public String getEmail() {
         return this.email;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
