@@ -1,7 +1,7 @@
 <template>
-  <section class="bg-white rounded-lg pt-32">
+  <section class="bg-white rounded-lg pt-6">
     <div
-      class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+      class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-fit lg:py-0"
     >
       <a
         href="#"
@@ -23,36 +23,38 @@
           >
             Create an account
           </h1>
-          <form class="space-y-4 md:space-y-6" action="#">
+          <form class="space-y-4 md:space-y-6" @submit.prevent="registerUser">
             <div>
               <label
-                for="email"
+                for="name"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >FirstName</label
               >
               <input
-                type="email"
-                name="email"
-                id="email"
+                type="name"
+                name="firstName"
+                id="firstName"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Jonh"
                 required=""
+                v-model="name"
               />
             </div>
 
             <div>
               <label
-                for="email"
+                for="surname"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >Suname</label
               >
               <input
-                type="email"
-                name="email"
-                id="email"
+                type="surname"
+                name="surname"
+                id="surname"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="name@company.com"
+                placeholder="Marston"
                 required=""
+                v-model="surname"
               />
             </div>
             <div>
@@ -68,36 +70,87 @@
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="name@company.com"
                 required=""
+                v-model="email"
               />
             </div>
             <div>
               <label
-                for="email"
+                for="city"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >City</label
               >
               <input
-                type="email"
-                name="email"
-                id="email"
+                type="city"
+                name="city"
+                id="city"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="name@company.com"
+                placeholder="Austin Texas"
                 required=""
+                v-model="city"
               />
             </div>
             <div>
               <label
-                for="email"
+                for="Description"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Description</label
+              >
+              <input
+                type="description"
+                name="description"
+                id="description"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Description Yourself..."
+                required="false"
+                v-model="description"
+              />
+            </div>
+            <div>
+              <label
+                for="School"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >School</label
+              >
+              <input
+                type="school"
+                name="school"
+                id="school"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Harvad School"
+                required="false"
+                v-model="school"
+              />
+            </div>
+            <div>
+              <label
+                for="work"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Work</label
+              >
+              <input
+                type="work"
+                name="work"
+                id="work"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Work in..."
+                required="false"
+                v-model="work"
+              />
+            </div>
+            <div>
+              <label
+                for="site"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >Website</label
               >
               <input
-                type="email"
-                name="email"
-                id="email"
+                type="site"
+                name="site"
+                id="site"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="name@company.com"
-                required=""
+                placeholder="www.github.com/profile"
+                required="false"
+                v-model="website"
               />
             </div>
 
@@ -114,6 +167,7 @@
                 placeholder="••••••••"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required=""
+                v-model="password"
               />
             </div>
             <div>
@@ -123,12 +177,13 @@
                 >Confirm password</label
               >
               <input
-                type="confirm-password"
+                type="password"
                 name="confirm-password"
                 id="confirm-password"
                 placeholder="••••••••"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required=""
+                v-model="confirmPassword"
               />
             </div>
             <div class="flex items-start">
@@ -175,4 +230,40 @@
   </section>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import axios from "axios";
+
+const APP_HOST = process.env.APP_HOST;
+
+const router = useRouter();
+const name = ref("");
+const surname = ref("");
+const email = ref("");
+const description = ref("");
+const school = ref("");
+const work = ref("");
+const city = ref("");
+const password = ref("");
+const confirmPassword = ref("");
+
+const registerUser = async () => {
+  try {
+    const response = await axios.post(`${APP_HOST}/api/auth/register`, {
+      name: name.value,
+      surname: surname.value,
+      email: email.value,
+      description: description.value,
+      city: city.value,
+      school: school.value,
+      work: work.value,
+      password: password.value,
+    });
+
+    response.status === 201 ? router.push("/sign-in") : "";
+  } catch (error) {
+    console.log(error);
+  }
+};
+</script>

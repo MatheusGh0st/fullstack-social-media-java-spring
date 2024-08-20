@@ -22,6 +22,7 @@ public class User implements Serializable {
     private UUID idUser;
     private String name;
     private String surname;
+    private String username;
     private String email;
     private String description;
     private String city;
@@ -90,5 +91,13 @@ public class User implements Serializable {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

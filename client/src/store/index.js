@@ -7,6 +7,7 @@ const defaultState = {
   userId: null,
   accessToken: null,
   isLogged: null,
+  responseLogin: null,
 };
 
 const store = createStore({
@@ -22,6 +23,9 @@ const store = createStore({
     },
     setIsLogged(state, isLogged) {
       state.isLogged = isLogged;
+    },
+    setResponseLogin(state, responseLogin) {
+      state.responseLogin = responseLogin;
     },
   },
   actions: {
@@ -40,11 +44,13 @@ const store = createStore({
         const { token } = response.data;
         const { userId } = response.data;
         const userIsLogged = token !== null;
+        commit("setResponseLogin", response);
         commit("setUserId", userId);
         commit("setAccessToken", token);
         commit("setIsLogged", userIsLogged);
       } catch (error) {
-        console.error(error);
+        commit("setResponseLogin", error);
+        console.error(`Error in LoginUser index.js : ${error}`);
       }
     },
   },

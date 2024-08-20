@@ -55,6 +55,9 @@
                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required=""
               />
+              <p v-if="errorMsg" class="mt-2 text-sm text-red-600">
+                {{ errorMsg }}
+              </p>
             </div>
             <div class="flex items-center justify-between">
               <div class="flex items-start">
@@ -109,6 +112,7 @@ const router = useRouter();
 const store = useStore();
 const email = ref("");
 const password = ref("");
+const errorMsg = ref("");
 
 const loginUser = async () => {
   try {
@@ -116,6 +120,13 @@ const loginUser = async () => {
       email: email.value,
       password: password.value,
     });
+
+    const status = store.state.responseLogin.response?.status || 0;
+
+    const accessDeniedMsg =
+      status === 403 ? "Access denied password wrong" : "";
+
+    errorMsg.value = accessDeniedMsg;
 
     if (!store.state.accessToken) {
       router.push("/sign-in");
