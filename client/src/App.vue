@@ -9,7 +9,7 @@
       <HomePage />
     </div>
     <div v-if="isProfilePage">
-      <Profile />
+      <Profile :username="route.params.username" />
     </div>
     <div class="pt-6" v-if="isSignIn">
       <SignIn />
@@ -32,7 +32,7 @@ import { computed } from "vue";
 const route = useRoute();
 
 const isHomePage = computed(() => route.path === "/");
-const isProfilePage = computed(() => route.path === "/profile");
+const isProfilePage = computed(() => route.path.startsWith("/profile/"));
 const isSignIn = computed(() => route.path === "/sign-in");
 const isSignUp = computed(() => route.path === "/sign-up");
 </script>

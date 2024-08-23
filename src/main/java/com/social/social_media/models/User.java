@@ -21,6 +21,7 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID idUser;
     private String name;
+    private String avatar;
     private String surname;
     private String username;
     private String email;
@@ -43,7 +44,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "followerId", cascade = CascadeType.ALL)
     private List<Follow> followers;
 
-    @OneToMany(mappedBy = "followeeId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "followeedId", cascade = CascadeType.ALL)
     private List<Follow> followings;
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
@@ -69,20 +70,12 @@ public class User implements Serializable {
     )
     private Set<Role> roles = new HashSet<>();
 
-    public UUID getIdUser() {
-        return idUser;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return this.email;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public Set<Role> getRoles() {
@@ -93,6 +86,142 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
+    public List<Storie> getStories() {
+        return stories;
+    }
+
+    public void setStories(List<Storie> stories) {
+        this.stories = stories;
+    }
+
+    public List<Block> getBlockedBy() {
+        return blockedBy;
+    }
+
+    public void setBlockedBy(List<Block> blockedBy) {
+        this.blockedBy = blockedBy;
+    }
+
+    public List<Block> getBlocks() {
+        return blocks;
+    }
+
+    public void setBlocks(List<Block> blocks) {
+        this.blocks = blocks;
+    }
+
+    public List<FollowRequest> getFollowRequestsReceived() {
+        return followRequestsReceived;
+    }
+
+    public void setFollowRequestsReceived(List<FollowRequest> followRequestsReceived) {
+        this.followRequestsReceived = followRequestsReceived;
+    }
+
+    public List<FollowRequest> getFollowRequestsSent() {
+        return followRequestsSent;
+    }
+
+    public void setFollowRequestsSent(List<FollowRequest> followRequestsSent) {
+        this.followRequestsSent = followRequestsSent;
+    }
+
+    public List<Follow> getFollowings() {
+        return followings;
+    }
+
+    public void setFollowings(List<Follow> followings) {
+        this.followings = followings;
+    }
+
+    public List<Follow> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<Follow> followers) {
+        this.followers = followers;
+    }
+
+    public List<Like> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<Like> likes) {
+        this.likes = likes;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public String getWork() {
+        return work;
+    }
+
+    public void setWork(String work) {
+        this.work = work;
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -100,4 +229,26 @@ public class User implements Serializable {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public UUID getIdUser() {
+        return idUser;
+    }
+
+
 }

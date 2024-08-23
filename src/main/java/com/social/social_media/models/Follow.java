@@ -25,8 +25,8 @@ public class Follow implements Serializable {
     private User followerId;
 
     @ManyToOne
-    @JoinColumn(name = "followee_id", nullable = false)
-    private User followeeId;
+    @JoinColumn(name = "followeed_id", nullable = false)
+    private User followeedId;
 
     private LocalDateTime createdAt;
 
@@ -35,7 +35,7 @@ public class Follow implements Serializable {
     public Follow(FollowStatus status, User followerId, User followeedId) {
         this.status = status;
         this.followerId = followerId;
-        this.followeeId = followeedId;
+        this.followeedId = followeedId;
         this.createdAt = LocalDateTime.now();
     }
 
@@ -58,19 +58,4 @@ public class Follow implements Serializable {
         this.status = status;
     }
 
-    public User getFollowerId() {
-        return followerId;
-    }
-
-    public void setFollowerId(User followerId) {
-        this.followerId = followerId;
-    }
-
-    public User getFolloweeId() {
-        return followeeId;
-    }
-
-    public void setFolloweeId(User followeeId) {
-        this.followeeId = followeeId;
-    }
 }

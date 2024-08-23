@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public record UserRecordDto(
         @NotBlank String name,
+        String avatar,
         @NotBlank String surname,
         @NotBlank String username,
         @NotBlank String email,
