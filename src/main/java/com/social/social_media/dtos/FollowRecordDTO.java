@@ -6,5 +6,5 @@ import java.util.UUID;
 
 public record FollowRecordDTO(
         @NotNull UUID followerId,
-        @NotNull UUID followeeId
+        @NotNull UUID followeedId
 ) {}

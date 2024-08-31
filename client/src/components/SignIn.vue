@@ -131,7 +131,7 @@ const loginUser = async () => {
     if (!store.state.accessToken) {
       router.push("/sign-in");
     } else {
-      router.push("/profile");
+      router.push("/");
     }
   } catch (err) {
     console.error(err);

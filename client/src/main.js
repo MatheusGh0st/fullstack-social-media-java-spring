@@ -12,12 +12,6 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: "/",
-      name: "App",
-      component: App,
-      meta: { requiresAuth: true },
-    },
-    {
       path: "/sign-in",
       name: "SignIn",
       components: { main: SignIn },
@@ -28,6 +22,12 @@ const router = createRouter({
       name: "SignUp",
       components: { main: SignUp },
       meta: { requiresVisitor: true },
+    },
+    {
+      path: "/",
+      name: "App",
+      component: App,
+      meta: { requiresAuth: true },
     },
     {
       path: "/profile",

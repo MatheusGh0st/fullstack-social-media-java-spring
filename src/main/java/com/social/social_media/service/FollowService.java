@@ -2,6 +2,7 @@ package com.social.social_media.service;
 
 import com.social.social_media.dtos.FollowRecordDTO;
 import com.social.social_media.models.Follow;
+import com.social.social_media.models.User;
 import com.social.social_media.repositories.FollowRepository;
 import com.social.social_media.repositories.UserRepository;
 import jakarta.transaction.Transactional;
@@ -23,10 +24,20 @@ public class FollowService {
         return followRepository.findAll();
     }
 
+    public List<Follow> getFolloweeds(User user) {
+        return followRepository.findAllByFolloweed(user);
+    }
+
+    public List<Follow> getAllFollowers(User user) {
+        return followRepository.findAllByFollower(user);
+    }
+
     @Transactional
     public Follow addFollow(FollowRecordDTO followRecordDTO) {
+        System.out.println("A");
+        System.out.println(followRecordDTO);
         var userFollow = userRepository.findById(followRecordDTO.followerId());
-        var userFollower = userRepository.findById(followRecordDTO.followeeId());
+        var userFollower = userRepository.findById(followRecordDTO.followeedId());
         if (userFollow.isEmpty() || userFollower.isEmpty()) {
             return null;
         }

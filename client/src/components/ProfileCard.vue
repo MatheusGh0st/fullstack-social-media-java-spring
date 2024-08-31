@@ -2,13 +2,13 @@
   <div class="p-4 bg-white rounded-lg shadow-md text-sm flex flex-col gap-6">
     <div class="h-20 relative">
       <img
-        :src="profileObj?.cover || require('../../public/noCover.png')"
+        :src="profileObj?.user?.cover || require('../../public/noCover.png')"
         alt="User Avatar"
         style="width: 100%; height: 100%"
         class="rounded-md object-cover"
       />
       <img
-        :src="profileObj?.avatar || require('../../public/noAvatar.png')"
+        :src="profileObj?.user?.avatar || require('../../public/noAvatar.png')"
         alt="User Avatar"
         width="48px"
         height="48px"
@@ -17,7 +17,7 @@
     </div>
     <div class="h-20 flex flex-col gap-2 items-center">
       <span class="font-semibold">{{
-        `${profileObj?.name} ${profileObj?.surname}`
+        `${profileObj?.user?.name} ${profileObj?.user?.surname}`
       }}</span>
       <div class="flex items-center gap-4">
         <div class="flex">
@@ -48,7 +48,7 @@
         >
       </div>
       <button class="bg-blue-500 text-white text-xs p-2 rounded-md">
-        <router-link :to="`${profileLink.value}`">My Profile</router-link>
+        <router-link :to="`${profileLink?.value}`">My Profile</router-link>
       </button>
     </div>
   </div>
@@ -58,43 +58,18 @@
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { ref, computed } from "vue";
-import axios from "axios";
 
 const router = useRouter();
-const username = ref("");
 const profileObj = ref({});
 const store = useStore();
 const profileLink = ref("");
 
-const API_HOST = process.env.APP_HOST;
-
 profileObj.value = store.state.userObj;
 
 router.isReady().then(async () => {
-  const path = router.currentRoute.value.path;
-  const regex = /^\/profile\/([^/]+)$/;
-  const match = path.match(regex);
-  username.value = match ? match[1] : null;
-  await findProfile(username.value);
+  console.log("Component ProfileCard");
   profileLink.value = computed(() => {
-    return `/profile/${profileObj?.value?.username}`;
+    return `/profile/${profileObj?.value?.user?.username}`;
   });
 });
-
-const findProfile = async (username) => {
-  if (username === null) return null;
-  try {
-    const response = await axios.get(
-      `${API_HOST}/api/auth/${username}/followers`,
-      {
-        headers: {
-          Authorization: `Bearer ${store.state.accessToken}`,
-        },
-      }
-    );
-    console.log(response.data);
-  } catch (error) {
-    console.error(error);
-  }
-};
 </script>

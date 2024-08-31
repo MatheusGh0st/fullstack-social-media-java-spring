@@ -10,6 +10,17 @@ public class PostDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updateAt;
 
+    // Constructor matching the JPQL query
+    public PostDTO(UUID idPost, String description, String imgUrl, LocalDateTime createdAt, LocalDateTime updateAt) {
+        this.idPost = idPost;
+        this.description = description;
+        this.imgUrl = imgUrl;
+        this.createdAt = createdAt;
+        this.updateAt = updateAt;
+    }
+
+    public PostDTO() {};
+
     // Getters and Setters
     public UUID getIdPost() {
         return idPost;

@@ -46,7 +46,7 @@ const store = createStore({
           }
         );
         const { token } = response.data;
-        const { userId } = response.data.user;
+        const { userId } = response.data.user.user;
         const userObject = response.data.user;
         const userIsLogged = token !== null;
         commit("setUserObj", userObject);

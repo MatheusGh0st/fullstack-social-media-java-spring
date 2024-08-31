@@ -8,72 +8,72 @@
     <!-- BOTTOM -->
     <div class="flex gap-4 justify-between flex-wrap">
       <div class="relative w-1/5 h-24">
-        <img 
-           src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-           style="width: 100%; height: 100%;"
-           class="object-cover rounded-md"
-           />
+        <img
+          src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          style="width: 100%; height: 100%"
+          class="object-cover rounded-md"
+        />
       </div>
       <div class="relative w-1/5 h-24">
-        <img 
-           src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-           style="width: 100%; height: 100%;"
-           class="object-cover rounded-md"
-           />
+        <img
+          src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          style="width: 100%; height: 100%"
+          class="object-cover rounded-md"
+        />
       </div>
       <div class="relative w-1/5 h-24">
-        <img 
-           src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-           style="width: 100%; height: 100%;"
-           class="object-cover rounded-md"
-           />
+        <img
+          src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          style="width: 100%; height: 100%"
+          class="object-cover rounded-md"
+        />
       </div>
       <div class="relative w-1/5 h-24">
-        <img 
-           src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-           style="width: 100%; height: 100%;"
-           class="object-cover rounded-md"
-           />
+        <img
+          src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          style="width: 100%; height: 100%"
+          class="object-cover rounded-md"
+        />
       </div>
       <div class="relative w-1/5 h-24">
-        <img 
-           src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-           style="width: 100%; height: 100%;"
-           class="object-cover rounded-md"
-           />
+        <img
+          src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          style="width: 100%; height: 100%"
+          class="object-cover rounded-md"
+        />
       </div>
       <div class="relative w-1/5 h-24">
-        <img 
-           src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-           style="width: 100%; height: 100%;"
-           class="object-cover rounded-md"
-           />
+        <img
+          src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          style="width: 100%; height: 100%"
+          class="object-cover rounded-md"
+        />
       </div>
       <div class="relative w-1/5 h-24">
-        <img 
-           src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-           style="width: 100%; height: 100%;"
-           class="object-cover rounded-md"
-           />
+        <img
+          src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          style="width: 100%; height: 100%"
+          class="object-cover rounded-md"
+        />
       </div>
       <div class="relative w-1/5 h-24">
-        <img 
-           src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-           style="width: 100%; height: 100%;"
-           class="object-cover rounded-md"
-           />
+        <img
+          src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          style="width: 100%; height: 100%"
+          class="object-cover rounded-md"
+        />
       </div>
     </div>
   </div>
-</template> 
+</template>
 
 <script setup>
-  import { defineProps } from "vue";
+import { defineProps } from "vue";
 
-  defineProps({
-   userId: {
-   type: String,
-   required: false,
-   },
-  });
+defineProps({
+  userObj: {
+    type: Object,
+    required: false,
+  },
+});
 </script>
