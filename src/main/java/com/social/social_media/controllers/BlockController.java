@@ -1,5 +1,6 @@
 package com.social.social_media.controllers;
 
+import com.social.social_media.dtos.BlockDTO;
 import com.social.social_media.dtos.BlockRecordDTO;
 import com.social.social_media.models.Block;
 import com.social.social_media.service.BlockService;
@@ -16,15 +17,18 @@ public class BlockController {
     @Autowired
     private BlockService blockService;
 
-    @GetMapping
+    @GetMapping("blocks")
     public ResponseEntity<List<Block>> getAllBlocks() {
         List<Block> blocks = blockService.getAllBlocks();
         return ResponseEntity.ok(blocks);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Block> getBlockById(@PathVariable UUID id) {
-        Block block = blockService.getBlockById(id);
+    @PostMapping("blocked")
+    public ResponseEntity<BlockDTO> getBlockById(@RequestBody BlockRecordDTO blockRecordDTO) {
+        if (blockRecordDTO.blockedId().equals(blockRecordDTO.blockerId())) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        BlockDTO block = blockService.isBlocked(blockRecordDTO.blockedId());
         if (block != null) {
             return ResponseEntity.ok(block);
         } else {
@@ -32,8 +36,8 @@ public class BlockController {
         }
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<Block> createBlock(BlockRecordDTO blockRecordDTO) {
+    @PostMapping("block")
+    public ResponseEntity<Block> createBlock(@RequestBody BlockRecordDTO blockRecordDTO) {
         Block newBlock = blockService.createBlock(blockRecordDTO.blockerId(), blockRecordDTO.blockedId());
         if (newBlock != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(newBlock);
@@ -42,7 +46,7 @@ public class BlockController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("block/{id}")
     public ResponseEntity<Block> updateBlock(@PathVariable UUID id, @RequestBody Block updatedBlock) {
         Block block = blockService.updateBlock(id, updatedBlock);
         if (block != null) {
@@ -52,7 +56,7 @@ public class BlockController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("block/{id}")
     public ResponseEntity<Void> deleteBlock(@PathVariable UUID id) {
         blockService.deleteBlock(id);
         return ResponseEntity.noContent().build();

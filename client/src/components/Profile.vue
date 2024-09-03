@@ -65,7 +65,7 @@ import RightMenu from "./RightMenu.vue";
 import Feed from "./Feed.vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import axios from "axios";
 
 const router = useRouter();
@@ -100,8 +100,4 @@ const findProfile = async (username) => {
     console.error(error);
   }
 };
-
-watch(profileObj, (newVal) => {
-  console.log(`Updated profileObj: ${newVal}`);
-});
 </script>

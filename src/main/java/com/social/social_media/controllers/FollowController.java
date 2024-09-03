@@ -38,8 +38,18 @@ public class FollowController {
         return ResponseEntity.status(HttpStatus.OK).body(followService.getAllFollowers(user));
     }
 
+    @PostMapping("/isfollow")
+    public ResponseEntity<Boolean> isFollow(@RequestBody FollowRecordDTO followRecordDTO) {
+        var followObj = followService.isFollow(followRecordDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(followObj);
+    }
+
     @PostMapping("/follow")
     public ResponseEntity<Follow> addFollower(@RequestBody FollowRecordDTO followRecordDTO) {
+        var followObj = followService.addFollow(followRecordDTO);
+        if (followObj == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(followService.addFollow(followRecordDTO));
     }
 

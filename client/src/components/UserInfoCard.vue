@@ -43,17 +43,57 @@
     </div>
     <button class="bg-blue-500 text-white text-sm rounded-md">Follow</button>
     <span class="text-red-400 self-end text-xs cursor-pointer">Block User</span>
+    <span class="text-red-400 self-end text-xs cursor-pointer">{{
+      isBlocked
+    }}</span>
+    <span class="text-red-400 self-end text-xs cursor-pointer">{{
+      isFollowing
+    }}</span>
   </div>
 </template>
 
 <script setup>
-import { defineProps, computed } from "vue";
+import { defineProps, computed, ref, watch } from "vue";
+import { useStore } from "vuex";
+import axios from "axios";
+
+const store = useStore();
+
+const APP_HOST = process.env.APP_HOST;
 
 const props = defineProps({
   userObj: {
     type: Object,
     required: false,
   },
+});
+
+const followerId = ref("");
+const blockerId = ref("");
+
+let isBlocked = ref(false);
+let isFollowing = ref(false);
+
+watch(
+  () => props.userObj,
+  (newVal) => {
+    // Profile Id
+    followerId.value = newVal?.user?.idUser || "";
+
+    // Profile Blocker Id
+    blockerId.value = newVal?.user?.idUser || "";
+  },
+  { immediate: true }
+);
+
+// User Authenticated Id
+const followeedId = computed(() => {
+  return store.state?.userObj?.user?.idUser;
+});
+
+// User Authenticated Blocked Id
+const blockedId = computed(() => {
+  return store.state?.userObj?.user?.idUser;
 });
 
 const createdAtDate = props.userObj.user
@@ -69,4 +109,56 @@ const formattedDate = computed(() => {
       })
     : "In the Start";
 });
+
+const findBlockerUser = async () => {
+  try {
+    const response = await axios.post(
+      `${APP_HOST}/blocked`,
+      {
+        blockerId: blockerId.value,
+        blockedId: blockedId.value,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${store.state.accessToken}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const findFollowerUser = async () => {
+  try {
+    const response = await axios.post(
+      `${APP_HOST}/isfollow`,
+      {
+        followerId: followerId.value,
+        followeedId: followeedId.value,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${store.state.accessToken}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+watch(
+  () => followerId.value,
+  async () => {
+    const blockRes = await findBlockerUser();
+    const followRes = await findFollowerUser();
+    blockRes ? (isBlocked.value = true) : (isBlocked.value = false);
+    followRes.data === true
+      ? (isFollowing.value = true)
+      : (isFollowing.value = false);
+  }
+);
 </script>

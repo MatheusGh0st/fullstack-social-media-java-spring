@@ -32,15 +32,36 @@ public class FollowService {
         return followRepository.findAllByFollower(user);
     }
 
+    public boolean isFollow(FollowRecordDTO followRecordDTO) {
+        if (followRecordDTO.followerId().equals(followRecordDTO.followeedId())) {
+            return false;
+        }
+        var userFollow = userRepository.findById(followRecordDTO.followerId());
+        var userFollower = userRepository.findById(followRecordDTO.followeedId());
+
+        boolean isFollowing = followRepository.existsByFollowerIdAndFolloweedId(userFollow.get(), userFollower.get());
+
+        return isFollowing;
+    }
+
     @Transactional
     public Follow addFollow(FollowRecordDTO followRecordDTO) {
-        System.out.println("A");
-        System.out.println(followRecordDTO);
         var userFollow = userRepository.findById(followRecordDTO.followerId());
         var userFollower = userRepository.findById(followRecordDTO.followeedId());
         if (userFollow.isEmpty() || userFollower.isEmpty()) {
             return null;
         }
+
+        boolean followExists = followRepository.existsByFollowerIdAndFolloweedId(userFollow.get(), userFollower.get());
+
+        if (userFollow.get().getIdUser().equals(userFollower.get().getIdUser())) {
+            return null;
+        }
+
+        if (followExists) {
+            return null;
+        }
+
         var follow = new Follow(Follow.FollowStatus.ACCEPTED, userFollow.get(), userFollower.get());
 
         return followRepository.save(follow);

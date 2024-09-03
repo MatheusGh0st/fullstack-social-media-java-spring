@@ -1,5 +1,6 @@
 package com.social.social_media.service;
 
+import com.social.social_media.dtos.BlockDTO;
 import com.social.social_media.models.Block;
 import com.social.social_media.models.User;
 import com.social.social_media.repositories.BlockRepository;
@@ -21,8 +22,9 @@ public class BlockService {
 
     public List<Block> getAllBlocks() { return blockRepository.findAll(); }
 
-    public Block getBlockById(UUID id) {
-        Optional<Block> block = blockRepository.findById(id);
+    public BlockDTO isBlocked(UUID id) {
+        Optional<User> user = userRepository.findById(id);
+        Optional<BlockDTO> block = blockRepository.isBlocked(user.get());
         return block.orElse(null);
     }
 

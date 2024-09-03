@@ -1,9 +1,18 @@
 <template>
   <div class="flex flex-col gap-6">
-    <div class="flex flex-col justify-between gap-6" v-if="userObj">
-      <UserInfoCard :userObj="userObj" />
-      <UserMediaCard :userObj="userObj" />
-    </div>
+    <Suspense>
+      <template #default>
+        <div class="flex flex-col justify-between gap-6" v-if="userObj">
+          <UserInfoCard :userObj="userObj" />
+          <UserMediaCard :userObj="userObj" />
+        </div>
+      </template>
+      <template #fallback>
+        <div class="flex justify-center items-center">
+          <p>Loading user information...</p>
+        </div>
+      </template>
+    </Suspense>
     <FriendsRequests />
     <Birthdays />
     <Ad size="md" />
