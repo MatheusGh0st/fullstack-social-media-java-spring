@@ -2,13 +2,15 @@
   <div class="p-4 bg-white rounded-lg shadow-md text-sm flex flex-col gap-6">
     <div class="h-20 relative">
       <img
-        :src="profileObj?.user?.cover || require('../../public/noCover.png')"
+        :src="profileObj?.user?.cover || require('../../../public/noCover.png')"
         alt="User Avatar"
         style="width: 100%; height: 100%"
         class="rounded-md object-cover"
       />
       <img
-        :src="profileObj?.user?.avatar || require('../../public/noAvatar.png')"
+        :src="
+          profileObj?.user?.avatar || require('../../../public/noAvatar.png')
+        "
         alt="User Avatar"
         width="48px"
         height="48px"

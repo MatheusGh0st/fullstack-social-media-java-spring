@@ -17,10 +17,9 @@
 </template>
 
 <script setup>
-import LeftMenu from "./LeftMenu.vue";
-import RightMenu from "./RightMenu.vue";
+import LeftMenu from "./leftMenu/LeftMenu.vue";
+import RightMenu from "./rightMenu/RightMenu.vue";
 import Stories from "./Stories.vue";
 import AddPost from "./AddPost.vue";
-import Feed from "./Feed.vue";
-
+import Feed from "./feed/Feed.vue";
 </script>

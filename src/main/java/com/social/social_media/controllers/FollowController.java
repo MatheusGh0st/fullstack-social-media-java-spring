@@ -1,6 +1,7 @@
 package com.social.social_media.controllers;
 
 import com.social.social_media.dtos.FollowRecordDTO;
+import com.social.social_media.dtos.FollowResponseDTO;
 import com.social.social_media.models.Follow;
 import com.social.social_media.models.User;
 import com.social.social_media.repositories.UserRepository;
@@ -39,7 +40,7 @@ public class FollowController {
     }
 
     @PostMapping("/isfollow")
-    public ResponseEntity<Boolean> isFollow(@RequestBody FollowRecordDTO followRecordDTO) {
+    public ResponseEntity<FollowResponseDTO> isFollow(@RequestBody FollowRecordDTO followRecordDTO) {
         var followObj = followService.isFollow(followRecordDTO);
         return ResponseEntity.status(HttpStatus.OK).body(followObj);
     }

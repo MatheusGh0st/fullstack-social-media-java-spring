@@ -2,6 +2,7 @@ package com.social.social_media.controllers;
 
 import com.social.social_media.dtos.BlockDTO;
 import com.social.social_media.dtos.BlockRecordDTO;
+import com.social.social_media.dtos.IsBlockedDTO;
 import com.social.social_media.models.Block;
 import com.social.social_media.service.BlockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +24,10 @@ public class BlockController {
         return ResponseEntity.ok(blocks);
     }
 
-    @PostMapping("blocked")
-    public ResponseEntity<BlockDTO> getBlockById(@RequestBody BlockRecordDTO blockRecordDTO) {
-        if (blockRecordDTO.blockedId().equals(blockRecordDTO.blockerId())) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-        BlockDTO block = blockService.isBlocked(blockRecordDTO.blockedId());
-        if (block != null) {
-            return ResponseEntity.ok(block);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @PostMapping("isblocked")
+    public ResponseEntity<IsBlockedDTO> getBlockById(@RequestBody BlockRecordDTO blockRecordDTO) {
+        var blockObj = blockService.isBlocked(blockRecordDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(blockObj);
     }
 
     @PostMapping("block")

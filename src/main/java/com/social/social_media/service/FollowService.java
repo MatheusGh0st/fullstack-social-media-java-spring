@@ -1,6 +1,7 @@
 package com.social.social_media.service;
 
 import com.social.social_media.dtos.FollowRecordDTO;
+import com.social.social_media.dtos.FollowResponseDTO;
 import com.social.social_media.models.Follow;
 import com.social.social_media.models.User;
 import com.social.social_media.repositories.FollowRepository;
@@ -32,16 +33,18 @@ public class FollowService {
         return followRepository.findAllByFollower(user);
     }
 
-    public boolean isFollow(FollowRecordDTO followRecordDTO) {
+    public FollowResponseDTO isFollow(FollowRecordDTO followRecordDTO) {
         if (followRecordDTO.followerId().equals(followRecordDTO.followeedId())) {
-            return false;
+            return new FollowResponseDTO(null, false);
         }
         var userFollow = userRepository.findById(followRecordDTO.followerId());
         var userFollower = userRepository.findById(followRecordDTO.followeedId());
 
+        var followId = followRepository.findByFollowerIdAndFolloweedId(userFollower.get(), userFollow.get());
+
         boolean isFollowing = followRepository.existsByFollowerIdAndFolloweedId(userFollow.get(), userFollower.get());
 
-        return isFollowing;
+        return new FollowResponseDTO(followId.getIdFollow(), isFollowing);
     }
 
     @Transactional

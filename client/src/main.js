@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 import store from "./store/index.js";
 import App from "./App.vue";
-import ProfileCard from "./components/ProfileCard.vue";
+import ProfileCard from "./components/leftMenu/ProfileCard.vue";
 import Profile from "./components/Profile.vue";
 import SignIn from "./components/SignIn.vue";
 import SignUp from "./components/SignUp.vue";

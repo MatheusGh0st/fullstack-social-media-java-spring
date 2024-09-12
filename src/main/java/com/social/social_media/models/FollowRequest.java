@@ -31,7 +31,7 @@ public class FollowRequest implements Serializable
 
     public FollowRequest() {};
 
-    public FollowRequest(User sender, User receiver, LocalDateTime createdAt) {
+    public FollowRequest(User sender, User receiver) {
         this.sender = sender;
         this.receiver = receiver;
         this.createdAt = LocalDateTime.now();

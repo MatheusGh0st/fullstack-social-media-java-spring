@@ -25,7 +25,7 @@ import FriendsRequests from "./FriendRequests.vue";
 import Birthdays from "./Birthdays.vue";
 import UserInfoCard from "./UserInfoCard.vue";
 import UserMediaCard from "./UserMediaCard.vue";
-import Ad from "./Ad.vue";
+import Ad from "../Ad.vue";
 
 console.log("Component RightMenu");
 

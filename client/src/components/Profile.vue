@@ -60,9 +60,9 @@
 </template>
 
 <script setup>
-import LeftMenu from "./LeftMenu.vue";
-import RightMenu from "./RightMenu.vue";
-import Feed from "./Feed.vue";
+import LeftMenu from "./leftMenu/LeftMenu.vue";
+import RightMenu from "./rightMenu/RightMenu.vue";
+import Feed from "./feed/Feed.vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { ref } from "vue";

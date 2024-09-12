@@ -17,44 +17,49 @@
         {{ `${userObj?.user?.description}` }}
       </p>
       <div class="flex items-center gap-2">
-        <img src="../../public/map.png" width="16px" height="16px" alt="" />
+        <img src="../../../public/map.png" width="16px" height="16px" alt="" />
         <span
           >Living in <b>{{ `${userObj?.user?.city}` }}</b></span
         >
       </div>
       <div class="flex items-center gap-2">
-        <img src="../../public/work.png" width="16px" height="16px" />
+        <img src="../../../public/work.png" width="16px" height="16px" />
         <span
           >Works at <b>{{ `${userObj?.user?.work}` }}</b></span
         >
       </div>
       <div class="flex items-center justify-between">
         <div class="flex gap-1 items-center">
-          <img src="../../public/link.png" alt="" width="16px" height="16px" />
+          <img
+            src="../../../public/link.png"
+            alt=""
+            width="16px"
+            height="16px"
+          />
           <router-link to="/" class="text-blue-500 font-medium">{{
-            `${userObj?.user?.website}`
+            `${userObj?.user?.website || "Site..."}`
           }}</router-link>
         </div>
       </div>
       <div class="flex gap-1 items-center">
-        <img src="../../public/date.png" alt="" width="16px" height="16px" />
+        <img src="../../../public/date.png" alt="" width="16px" height="16px" />
         <span>Joined {{ `${formattedDate}` }}</span>
       </div>
     </div>
-    <button class="bg-blue-500 text-white text-sm rounded-md">Follow</button>
-    <span class="text-red-400 self-end text-xs cursor-pointer">Block User</span>
-    <span class="text-red-400 self-end text-xs cursor-pointer">{{
-      isBlocked
-    }}</span>
-    <span class="text-red-400 self-end text-xs cursor-pointer">{{
-      isFollowing
-    }}</span>
+    <UserInfoCardInteraction
+      :userId="userObj?.user?.idUser"
+      :currentUserId="currentUserId"
+      :isUserBlocked="isBlocked"
+      :isFollowing="isFollowing"
+      :isFollowingSent="false"
+    />
   </div>
 </template>
 
 <script setup>
 import { defineProps, computed, ref, watch } from "vue";
 import { useStore } from "vuex";
+import UserInfoCardInteraction from "./UserInfoCardInteraction.vue";
 import axios from "axios";
 
 const store = useStore();
@@ -93,6 +98,11 @@ const followeedId = computed(() => {
 
 // User Authenticated Blocked Id
 const blockedId = computed(() => {
+  return store.state?.userObj?.user?.idUser;
+});
+
+// Current User Id
+const currentUserId = computed(() => {
   return store.state?.userObj?.user?.idUser;
 });
 
@@ -153,12 +163,18 @@ const findFollowerUser = async () => {
 watch(
   () => followerId.value,
   async () => {
-    const blockRes = await findBlockerUser();
     const followRes = await findFollowerUser();
-    blockRes ? (isBlocked.value = true) : (isBlocked.value = false);
     followRes.data === true
       ? (isFollowing.value = true)
       : (isFollowing.value = false);
+  }
+);
+
+watch(
+  () => blockerId.value,
+  async () => {
+    const blockRes = await findBlockerUser();
+    blockRes ? (isBlocked.value = true) : (isBlocked.value = false);
   }
 );
 </script>

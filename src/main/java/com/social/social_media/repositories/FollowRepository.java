@@ -18,4 +18,7 @@ public interface FollowRepository extends JpaRepository<Follow, UUID> {
     List<Follow> findAllByFollower(@Param("user") User user);
 
     boolean existsByFollowerIdAndFolloweedId(User followerId, User followeedId);
+
+    @Query("SELECT f FROM Follow f WHERE f.followeedId = :user1 AND f.followerId = :user2")
+    Follow findByFollowerIdAndFolloweedId(@Param("user1") User user1, @Param("user2") User user2);
 }

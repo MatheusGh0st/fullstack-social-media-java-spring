@@ -1,6 +1,9 @@
 package com.social.social_media.service;
 
 import com.social.social_media.dtos.BlockDTO;
+import com.social.social_media.dtos.BlockRecordDTO;
+import com.social.social_media.dtos.FollowResponseDTO;
+import com.social.social_media.dtos.IsBlockedDTO;
 import com.social.social_media.models.Block;
 import com.social.social_media.models.User;
 import com.social.social_media.repositories.BlockRepository;
@@ -22,10 +25,22 @@ public class BlockService {
 
     public List<Block> getAllBlocks() { return blockRepository.findAll(); }
 
-    public BlockDTO isBlocked(UUID id) {
-        Optional<User> user = userRepository.findById(id);
-        Optional<BlockDTO> block = blockRepository.isBlocked(user.get());
-        return block.orElse(null);
+    public IsBlockedDTO isBlocked(BlockRecordDTO blockRecordDTO) {
+        if (blockRecordDTO.blockerId().equals(blockRecordDTO.blockedId())) {
+            return new IsBlockedDTO(null, false);
+        }
+        Optional<User> userBlocked = userRepository.findById(blockRecordDTO.blockedId());
+        Optional<User> userBlocker = userRepository.findById(blockRecordDTO.blockerId());
+
+        var blockId = blockRepository.findByBlockerIdAndBlockedId(userBlocker.get(), userBlocked.get()).orElse(null);
+
+        boolean isBlocked = blockRepository.existsByBlockerAndBlocked(userBlocker.get(), userBlocked.get());
+
+        if (blockId != null) {
+            return new IsBlockedDTO(blockId.getIdBlock(), isBlocked);
+        }
+
+        return new IsBlockedDTO(null, isBlocked);
     }
 
     public Block createBlock(UUID blockerId, UUID blockedId) {
@@ -33,6 +48,12 @@ public class BlockService {
         Optional<User> blocked = userRepository.findById(blockedId);
 
         if (blocker.isPresent() && blocked.isPresent()) {
+            Optional<Block> existingBlock = blockRepository.findByBlockerIdAndBlockedId(blocker.get(), blocked.get());
+
+            if (existingBlock.isPresent()) {
+                System.out.println("Block relationship alerady exists between the users");
+                return null;
+            };
             Block newBlock = new Block(blocker.get(), blocked.get());
             return blockRepository.save(newBlock);
         }
