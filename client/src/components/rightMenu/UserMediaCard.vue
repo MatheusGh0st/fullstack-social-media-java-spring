@@ -7,58 +7,13 @@
     </div>
     <!-- BOTTOM -->
     <div class="flex gap-4 justify-between flex-wrap">
-      <div class="relative w-1/5 h-24">
+      <div
+        class="relative w-1/5 h-24"
+        v-for="media in mediasObj"
+        :key="media.idPost"
+      >
         <img
-          src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          style="width: 100%; height: 100%"
-          class="object-cover rounded-md"
-        />
-      </div>
-      <div class="relative w-1/5 h-24">
-        <img
-          src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          style="width: 100%; height: 100%"
-          class="object-cover rounded-md"
-        />
-      </div>
-      <div class="relative w-1/5 h-24">
-        <img
-          src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          style="width: 100%; height: 100%"
-          class="object-cover rounded-md"
-        />
-      </div>
-      <div class="relative w-1/5 h-24">
-        <img
-          src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          style="width: 100%; height: 100%"
-          class="object-cover rounded-md"
-        />
-      </div>
-      <div class="relative w-1/5 h-24">
-        <img
-          src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          style="width: 100%; height: 100%"
-          class="object-cover rounded-md"
-        />
-      </div>
-      <div class="relative w-1/5 h-24">
-        <img
-          src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          style="width: 100%; height: 100%"
-          class="object-cover rounded-md"
-        />
-      </div>
-      <div class="relative w-1/5 h-24">
-        <img
-          src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          style="width: 100%; height: 100%"
-          class="object-cover rounded-md"
-        />
-      </div>
-      <div class="relative w-1/5 h-24">
-        <img
-          src="https://images.pexels.com/photos/3421812/pexels-photo-3421812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          :src="media.imgUrl"
           style="width: 100%; height: 100%"
           class="object-cover rounded-md"
         />
@@ -68,12 +23,40 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, ref, watch } from "vue";
+import axios from "axios";
+import { useStore } from "vuex";
 
-defineProps({
+const APP_HOST = process.env.APP_HOST;
+
+const store = useStore();
+const mediasRes = ref({});
+const mediasObj = ref([]);
+
+const props = defineProps({
   userObj: {
     type: Object,
     required: false,
   },
 });
+
+const fetchMedia = async () => {
+  const userId = props.userObj?.user?.idUser;
+  // const page = 1;
+  // const pageSize = 10;
+  const postsWithMedia = await axios.get(`${APP_HOST}/posts/${userId}`, {
+    headers: {
+      Authorization: `Bearer ${store.state.accessToken}`,
+    },
+  });
+  return postsWithMedia.data;
+};
+
+watch(
+  () => props.userObj,
+  async () => {
+    mediasRes.value = await fetchMedia();
+    mediasObj.value = mediasRes.value.content;
+  }
+);
 </script>

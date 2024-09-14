@@ -2,9 +2,11 @@ package com.social.social_media.controllers;
 
 import com.social.social_media.dtos.PostRecordDto;
 import com.social.social_media.dtos.PostUpdateRecordDto;
+import com.social.social_media.dtos.PostsMediaDTO;
 import com.social.social_media.models.Post;
 import com.social.social_media.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,16 @@ public class PostController {
     @GetMapping("/post")
     public ResponseEntity<List<Post>> getAllPostUserId() {
         return ResponseEntity.status(HttpStatus.OK).body(postService.getAllPostUser());
+    }
+
+    @GetMapping("/posts/{userId}")
+    public ResponseEntity<Page<PostsMediaDTO>> getUserPosts(
+            @PathVariable UUID userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size)
+    {
+        Page<PostsMediaDTO> posts = postService.getAllUserPosts(userId, page, size);
+        return ResponseEntity.status(HttpStatus.OK).body(posts);
     }
 
     @PostMapping("/post")
