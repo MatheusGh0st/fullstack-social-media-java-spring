@@ -3,7 +3,10 @@
     <!-- TOP -->
     <div class="flex justify-between items-center font-medium">
       <span class="text-gray-500">User Information</span>
-      <router-link to="/" class="text-blue-500 text-xs">See all</router-link>
+      <UpdateUser v-if="isUserAndCurrentUser" />
+      <router-link v-else to="/" class="text-blue-500 text-xs"
+        >See all</router-link
+      >
     </div>
     <!-- BOTTOM -->
     <div class="flex flex-col gap-4 text-gray-500">
@@ -60,6 +63,7 @@
 import { defineProps, computed, ref, watch } from "vue";
 import { useStore } from "vuex";
 import UserInfoCardInteraction from "./UserInfoCardInteraction.vue";
+import UpdateUser from "./UpdateUser.vue";
 import axios from "axios";
 
 const store = useStore();
@@ -75,6 +79,7 @@ const props = defineProps({
 
 const followerId = ref("");
 const blockerId = ref("");
+const userIdProfile = ref("");
 
 let isBlocked = ref(false);
 let isFollowing = ref(false);
@@ -87,9 +92,16 @@ watch(
 
     // Profile Blocker Id
     blockerId.value = newVal?.user?.idUser || "";
+
+    // Current User Profile
+    userIdProfile.value = newVal?.user?.idUser || "";
   },
   { immediate: true }
 );
+
+const isUserAndCurrentUser = computed(() => {
+  return currentUserId.value === userIdProfile.value;
+});
 
 // User Authenticated Id
 const followeedId = computed(() => {

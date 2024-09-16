@@ -6,91 +6,60 @@
       <router-link to="/" class="text-blue-500 text-xs">See all</router-link>
     </div>
     <!-- USER -->
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-4">
-        <img
-          src="https://images.pexels.com/photos/21550488/pexels-photo-21550488/free-photo-of-azul-parede-muro-motocicleta.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          alt=""
-          width="40px"
-          height="40px"
-          class="w-10 h-10 rounded-full object-cover"
-        />
-        <span class="font-semibold">Wayne Burton</span>
-      </div>
-      <div class="flex gap-3 justify-end">
-        <img
-          src="../../../public/accept.png"
-          alt=""
-          width="20px"
-          height="20px"
-          class="cursor-pointer"
-        />
-        <img
-          src="../../../public/reject.png"
-          alt=""
-          width="20px"
-          height="20px"
-          class="cursor-pointer"
-        />
-      </div>
-    </div>
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-4">
-        <img
-          src="https://images.pexels.com/photos/21550488/pexels-photo-21550488/free-photo-of-azul-parede-muro-motocicleta.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          alt=""
-          width="40px"
-          height="40px"
-          class="w-10 h-10 rounded-full object-cover"
-        />
-        <span class="font-semibold">Wayne Burton</span>
-      </div>
-      <div class="flex gap-3 justify-end">
-        <img
-          src="../../../public/accept.png"
-          alt=""
-          width="20px"
-          height="20px"
-          class="cursor-pointer"
-        />
-        <img
-          src="../../../public/reject.png"
-          alt=""
-          width="20px"
-          height="20px"
-          class="cursor-pointer"
-        />
-      </div>
-    </div>
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-4">
-        <img
-          src="https://images.pexels.com/photos/21550488/pexels-photo-21550488/free-photo-of-azul-parede-muro-motocicleta.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          alt=""
-          width="40px"
-          height="40px"
-          class="w-10 h-10 rounded-full object-cover"
-        />
-        <span class="font-semibold">Wayne Burton</span>
-      </div>
-      <div class="flex gap-3 justify-end">
-        <img
-          src="../../../public/accept.png"
-          alt=""
-          width="20px"
-          height="20px"
-          class="cursor-pointer"
-        />
-        <img
-          src="../../../public/reject.png"
-          alt=""
-          width="20px"
-          height="20px"
-          class="cursor-pointer"
-        />
-      </div>
-    </div>
+    <FriendRequestList
+      v-if="isMounted"
+      :requests="requests"
+      :userObj="props.userObj"
+    />
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import FriendRequestList from "./FriendRequestList.vue";
+import { defineProps, watch, onMounted, ref } from "vue";
+import { useStore } from "vuex";
+import axios from "axios";
+
+const store = useStore();
+const isMounted = ref(false);
+let requests = ref([]);
+
+const props = defineProps({
+  userObj: {
+    type: Object,
+    required: true,
+  },
+});
+
+onMounted(() => {
+  isMounted.value = true;
+});
+
+const APP_HOST = process.env.APP_HOST;
+
+const findAllFollowRequests = async () => {
+  try {
+    const followRequestsRes = await axios.post(
+      `${APP_HOST}/followsReceivers`,
+      {
+        receiverId: props.userObj?.user?.idUser,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${store.state.accessToken}`,
+        },
+      }
+    );
+    requests.value = followRequestsRes.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+watch(
+  () => props.userObj,
+  async () => {
+    await findAllFollowRequests();
+  }
+);
+</script>

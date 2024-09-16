@@ -13,7 +13,14 @@
         </div>
       </template>
     </Suspense>
-    <FriendsRequests />
+    <Suspense>
+      <template #default>
+        <FriendsRequests v-if="userObj" :userObj="userObj" />
+      </template>
+      <template #fallback>
+        <p>Loading user information....</p>
+      </template>
+    </Suspense>
     <Birthdays />
     <Ad size="md" />
   </div>

@@ -1,6 +1,7 @@
 package com.social.social_media.service;
 
 import com.social.social_media.dtos.FollowRequestDTO;
+import com.social.social_media.dtos.FollowRequestReceiverResponseDTO;
 import com.social.social_media.dtos.FollowRequestResponseDTO;
 import com.social.social_media.models.FollowRequest;
 import com.social.social_media.repositories.FollowRequestRepository;
@@ -9,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -19,6 +21,12 @@ public class FollowRequestService {
     @Autowired
     UserRepository userRepository;
 
+    public List<FollowRequestReceiverResponseDTO> getAllByReceiver(UUID receiverId) {
+        var user = userRepository.findById(receiverId);
+        var followsReceiver = followRequestRepository.findAllByReceiverId(user.get());
+        return followsReceiver;
+    }
+
     public FollowRequestResponseDTO isFollowRequestExists(FollowRequestDTO followRequestDTO) {
         if (followRequestDTO.recieverId().equals(followRequestDTO.senderId())) {
             return new FollowRequestResponseDTO(null, false);
@@ -28,9 +36,13 @@ public class FollowRequestService {
 
         var followRequestId = followRequestRepository.findBySenderAndReceiver(userSender.get(), userReciever.get());
 
-        boolean isfollowRequestExist = followRequestRepository.existsBySenderAndReceiver(userSender.get(), userReciever.get());
+        if (followRequestId != null) {
+            boolean isfollowRequestExist = followRequestRepository.existsBySenderAndReceiver(userSender.get(), userReciever.get());
 
-        return new FollowRequestResponseDTO(followRequestId.getIdFollowRequest(), isfollowRequestExist);
+            return new FollowRequestResponseDTO(followRequestId.getIdFollowRequest(), isfollowRequestExist);
+        }
+
+        return null;
     }
 
     @Transactional
