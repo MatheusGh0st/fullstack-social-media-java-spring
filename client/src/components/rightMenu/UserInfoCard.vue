@@ -3,7 +3,7 @@
     <!-- TOP -->
     <div class="flex justify-between items-center font-medium">
       <span class="text-gray-500">User Information</span>
-      <UpdateUser v-if="isUserAndCurrentUser" />
+      <UpdateUser :userObj="userObj" v-if="isUserAndCurrentUser" />
       <router-link v-else to="/" class="text-blue-500 text-xs"
         >See all</router-link
       >

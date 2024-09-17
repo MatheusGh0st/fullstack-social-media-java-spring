@@ -7,6 +7,7 @@ import com.social.social_media.exceptions.UserNotFoundException;
 import com.social.social_media.models.Follow;
 import com.social.social_media.models.User;
 import com.social.social_media.repositories.UserRepository;
+import com.social.social_media.service.CustomUserDetailsService;
 import com.social.social_media.service.FollowService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -32,6 +34,9 @@ public class UserController {
 
     @Autowired
     FollowService followService;
+
+    @Autowired
+    CustomUserDetailsService customUserDetailsService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -173,6 +178,48 @@ public class UserController {
 
         List<Follow> followers = followService.getFolloweeds(user);
         List<Follow> followings = followService.getAllFollowers(user);
+
+        userWithPostsAndFollowersDTO.setUser(userDTO);
+        userWithPostsAndFollowersDTO.setFollowers(followers.size());
+        userWithPostsAndFollowersDTO.setFollowing(followings.size());
+
+        return ResponseEntity.ok(userWithPostsAndFollowersDTO);
+    }
+
+    @PutMapping("user/{id}")
+    public ResponseEntity<UserWithPostsAndFollowersDTO> editUserProfile(@PathVariable UUID id, @RequestBody UserEditDTO userEditDTO) {
+        User user = customUserDetailsService.updateUser(id, userEditDTO);
+        UserDTO userDTO = new UserDTO();
+        userDTO.setIdUser(user.getIdUser());
+        userDTO.setName(user.getName());
+        userDTO.setDescription(user.getDescription());
+        userDTO.setWebsite(user.getWebsite());
+        userDTO.setSurname(user.getSurname());
+        userDTO.setAvatar(user.getAvatar());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setCity(user.getCity());
+        userDTO.setSchool(user.getSchool());
+        userDTO.setWork(user.getWork());
+        userDTO.setUsername(user.getUsername());
+        userDTO.setCreatedAt(user.getCreatedAt());
+
+        // Convert posts to PostDTOs
+        List<PostDTO> postDTOs = user.getPosts().stream().map(post -> {
+            PostDTO postDTO = new PostDTO();
+            postDTO.setIdPost(post.getIdPost());
+            postDTO.setDescription(post.getDescription());
+            postDTO.setImgUrl(post.getImgUrl());
+            postDTO.setCreatedAt(post.getCreatedAt());
+            postDTO.setUpdateAt(post.getUpdateAt());
+            return postDTO;
+        }).collect(Collectors.toList());
+
+        userDTO.setPosts(postDTOs);
+
+        List<Follow> followers = followService.getFolloweeds(user);
+        List<Follow> followings = followService.getAllFollowers(user);
+
+        UserWithPostsAndFollowersDTO userWithPostsAndFollowersDTO = new UserWithPostsAndFollowersDTO();
 
         userWithPostsAndFollowersDTO.setUser(userDTO);
         userWithPostsAndFollowersDTO.setFollowers(followers.size());
