@@ -34,8 +34,6 @@ import UserInfoCard from "./UserInfoCard.vue";
 import UserMediaCard from "./UserMediaCard.vue";
 import Ad from "../Ad.vue";
 
-console.log("Component RightMenu");
-
 defineProps({
   userObj: {
     type: Object,

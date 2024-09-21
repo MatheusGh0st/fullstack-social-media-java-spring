@@ -1,5 +1,7 @@
 package com.social.social_media.service;
 
+import com.social.social_media.dtos.IsLikeDTO;
+import com.social.social_media.dtos.IsLikeResponseDTO;
 import com.social.social_media.dtos.LikeRecordDTO;
 import com.social.social_media.models.Like;
 import com.social.social_media.repositories.CommentRepository;
@@ -31,13 +33,33 @@ public class LikeService {
         return likeRepository.findAll();
     }
 
+    public IsLikeResponseDTO isLikeExist(IsLikeDTO isLikeDTO) {
+        var user = userRepository.findById(isLikeDTO.userId());
+        var post = postRepository.findById(isLikeDTO.postId());
+        if (user.isEmpty() || post.isEmpty()) {
+            return new IsLikeResponseDTO(null, false);
+        }
+        Like like = likeRepository.findByPostAndUser(post.get(), user.get());
+
+        boolean isLiked = likeRepository.existsByPostIdAndUserId(post.get(), user.get());
+
+        if (like != null ) {
+            UUID likeId = like.getIdLike();
+            return new IsLikeResponseDTO(likeId, isLiked);
+        }
+        return new IsLikeResponseDTO(null, isLiked);
+    }
+
     @Transactional
     public Like addLike(LikeRecordDTO likeRecordDTO) {
         var user = userRepository.findById(likeRecordDTO.userId());
         var post = postRepository.findById(likeRecordDTO.postId());
-        var comment = commentRepository.findById(likeRecordDTO.commentId());
-        if (user.isEmpty() || post.isEmpty() || comment.isEmpty()) { return null; }
-        var like = new Like(post.get(), comment.get(), user.get());
+        if (likeRecordDTO.commentId() != null) {
+            var comment = commentRepository.findById(likeRecordDTO.commentId());
+            var like = new Like(post.get(), comment.get(), user.get());
+            return likeRepository.save(like);
+        }
+        var like = new Like(post.get(), null, user.get());
         return likeRepository.save(like);
     }
 

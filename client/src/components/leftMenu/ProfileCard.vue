@@ -69,7 +69,6 @@ const profileLink = ref("");
 profileObj.value = store.state.userObj;
 
 router.isReady().then(async () => {
-  console.log("Component ProfileCard");
   profileLink.value = computed(() => {
     return `/profile/${profileObj?.value?.user?.username}`;
   });

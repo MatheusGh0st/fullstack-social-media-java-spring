@@ -22,7 +22,7 @@ public class Like implements Serializable {
     private Post postId;
 
     @ManyToOne
-    @JoinColumn(name = "comment_id", nullable = false)
+    @JoinColumn(name = "comment_id", nullable = true)
     private Comment commentId;
 
     @ManyToOne

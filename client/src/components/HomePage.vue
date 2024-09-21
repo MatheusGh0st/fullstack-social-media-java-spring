@@ -5,9 +5,32 @@
     </div>
     <div class="w-full lg:w-[70%] xl:w-[50%]">
       <div class="flex flex-col gap-6">
-        <Stories />
-        <AddPost />
-        <Feed />
+        <Suspense>
+          <template #default>
+            <Stories />
+          </template>
+          <template #fallback>
+            <p>Loading stories...</p>
+          </template>
+        </Suspense>
+
+        <Suspense>
+          <template #default>
+            <AddPost />
+          </template>
+          <template #fallback>
+            <p>Loading add post component...</p>
+          </template>
+        </Suspense>
+
+        <Suspense>
+          <template #default>
+            <Feed :userObj=null />
+          </template>
+          <template #fallback>
+            <p>Loading feed...</p>
+          </template>
+        </Suspense>
       </div>
     </div>
     <div class="hidden lg:block w-[30%]">

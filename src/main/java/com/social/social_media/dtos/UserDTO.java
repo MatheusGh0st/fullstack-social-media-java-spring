@@ -58,6 +58,15 @@ public class UserDTO {
         this.createdAt = createdAt;
     }
 
+    public UserDTO(UUID idUser, String name, String avatar, String description, String surname, String username) {
+        this.idUser = idUser;
+        this.name = name;
+        this.avatar = avatar;
+        this.description = description;
+        this.surname = surname;
+        this.username = username;
+    }
+
     public UUID getIdUser() {
         return idUser;
     }

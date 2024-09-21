@@ -3,6 +3,7 @@ package com.social.social_media.service;
 import com.social.social_media.dtos.PostRecordDto;
 import com.social.social_media.dtos.PostUpdateRecordDto;
 import com.social.social_media.dtos.PostsMediaDTO;
+import com.social.social_media.dtos.PostsUsernameDTO;
 import com.social.social_media.exceptions.UserNotFoundException;
 import com.social.social_media.models.Post;
 import com.social.social_media.models.User;
@@ -46,6 +47,13 @@ public class PostService {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
 
         return postRepository.findAllPostsByUserId(user, pageable);
+    }
+
+    public Page<PostsUsernameDTO> getPostsByUsername(String username, Pageable pageable) {
+        if (username != null && !username.isEmpty()) {
+            return postRepository.findAllPostsByUsername(username, pageable);
+        }
+        return Page.empty();
     }
 
     @Transactional

@@ -1,8 +1,11 @@
 package com.social.social_media.controllers;
 
+import com.social.social_media.dtos.IsLikeDTO;
+import com.social.social_media.dtos.IsLikeResponseDTO;
 import com.social.social_media.dtos.LikeRecordDTO;
 import com.social.social_media.models.Like;
 import com.social.social_media.service.LikeService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +24,14 @@ public class LikeController {
         return ResponseEntity.status(HttpStatus.OK).body(likeService.getAllLikes());
     }
 
+    @PostMapping("isLiked")
+    public ResponseEntity<IsLikeResponseDTO> isLikedExists(@RequestBody IsLikeDTO isLikeDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(likeService.isLikeExist(isLikeDTO));
+    }
+
     @PostMapping("/like")
     public ResponseEntity<Like> addLike(@RequestBody LikeRecordDTO likeRecordDTO) {
+        System.out.println(likeRecordDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(likeService.addLike(likeRecordDTO));
     }
 

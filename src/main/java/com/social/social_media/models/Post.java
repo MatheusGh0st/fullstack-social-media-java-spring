@@ -36,7 +36,7 @@ public class Post implements Serializable {
     private List<Comment> comments;
 
     @OneToMany(mappedBy = "postId", cascade = CascadeType.ALL)
-    private List<Like> like;
+    private List<Like> likes;
 
     public Post() {}
 
@@ -100,10 +100,10 @@ public class Post implements Serializable {
     }
 
     public List<Like> getLike() {
-        return like;
+        return likes;
     }
 
-    public void setLike(List<Like> like) {
-        this.like = like;
+    public void setLike(List<Like> likes) {
+        this.likes = likes;
     }
 }

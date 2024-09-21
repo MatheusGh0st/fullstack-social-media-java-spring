@@ -50,7 +50,7 @@
           </div>
           <div></div>
         </div>
-        <Feed />
+        <Feed :userObj="profileObj"/>
       </div>
     </div>
     <div class="hidden lg:block w-[30%]">
