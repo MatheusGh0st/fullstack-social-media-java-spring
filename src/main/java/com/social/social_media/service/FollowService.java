@@ -2,6 +2,7 @@ package com.social.social_media.service;
 
 import com.social.social_media.dtos.FollowRecordDTO;
 import com.social.social_media.dtos.FollowResponseDTO;
+import com.social.social_media.dtos.FollowUUIDDTO;
 import com.social.social_media.models.Follow;
 import com.social.social_media.models.User;
 import com.social.social_media.repositories.FollowRepository;
@@ -10,6 +11,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,6 +25,15 @@ public class FollowService {
 
     public List<Follow> getAllFollowers() {
         return followRepository.findAll();
+    }
+
+    public List<FollowUUIDDTO> getAllFollowingsIds(UUID userId) {
+        var user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            return followRepository.findFollowingIdsByUserId(user.get());
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     public List<Follow> getFolloweeds(User user) {

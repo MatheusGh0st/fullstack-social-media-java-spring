@@ -2,6 +2,7 @@ package com.social.social_media.controllers;
 
 import com.social.social_media.dtos.FollowRecordDTO;
 import com.social.social_media.dtos.FollowResponseDTO;
+import com.social.social_media.dtos.FollowUUIDDTO;
 import com.social.social_media.models.Follow;
 import com.social.social_media.models.User;
 import com.social.social_media.repositories.UserRepository;
@@ -25,6 +26,11 @@ public class FollowController {
     @GetMapping("/follows")
     public ResponseEntity<List<Follow>> getAllFollowers() {
         return ResponseEntity.status(HttpStatus.OK).body(followService.getAllFollowers());
+    }
+
+    @GetMapping("/followingsId/{userId}")
+    public ResponseEntity<List<FollowUUIDDTO>> getAllFollowingsUUID(@PathVariable UUID userId) {
+        return ResponseEntity.status(HttpStatus.OK).body(followService.getAllFollowingsIds(userId));
     }
 
     @GetMapping("/followeeds/{id}")

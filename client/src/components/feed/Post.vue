@@ -36,7 +36,7 @@
       :likes="postObj.likesCount"
       :commentNumber="postObj.commentsCount"
     />
-    <Comments />
+    <Comments :postId="postObj.idPost" />
   </div>
 </template>
 

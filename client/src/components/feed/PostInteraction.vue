@@ -18,9 +18,8 @@
           </button>
         </form>
         <span class="text-gray-300">|</span>
-        <span class="text-gray-500">
-          <span class="hidden md:inline">{{ likeStateOptimistic.likeCount }} Likes</span></span
-        >
+        <span class="text-gray-500"> </span>
+          <span class="hidden md:inline">{{ likeStateOptimistic.likeCount }} Likes</span>
       </div>
       <div class="flex items-center gap-4 bg-slate-50 p-2 rounded-xl">
         <img
@@ -32,7 +31,7 @@
         />
         <span class="text-gray-300">|</span>
         <span class="text-gray-500">
-          <span class="hidden md:inline"> Comments</span></span
+          <span class="hidden md:inline">{{ commentNumber }} Comments</span></span
         >
       </div>
     </div>
@@ -66,17 +65,17 @@ const APP_HOST = process.env.APP_HOST;
 
 const props = defineProps({
   postId: {
-    type: Object,
+    type: String,
     required: true,
   },
   likes: {
-    type: Object,
+    type: Number,
     required: true,
   },
   commentNumber: {
-    type: Object,
+    type: Number,
     required: true,
-  },
+  }
 });
 
 onMounted(async () => {

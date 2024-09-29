@@ -1,6 +1,7 @@
 package com.social.social_media.controllers;
 
 import com.social.social_media.dtos.CommentRecordDTO;
+import com.social.social_media.dtos.CommentResponseDTO;
 import com.social.social_media.dtos.CommentUpdateRecordDTO;
 import com.social.social_media.models.Comment;
 import com.social.social_media.service.CommentService;
@@ -17,13 +18,13 @@ public class CommentController {
     @Autowired
     CommentService commentService;
 
-    @GetMapping("/comments")
-    public ResponseEntity<List<Comment>> getAllComments() {
-        return ResponseEntity.status(HttpStatus.OK).body(commentService.getAllComments());
+    @GetMapping("/comments/{postId}")
+    public ResponseEntity<List<CommentResponseDTO>> getAllComments(@PathVariable UUID postId) {
+        return ResponseEntity.status(HttpStatus.OK).body(commentService.getCommentsWithLikes(postId));
     }
 
     @PostMapping("/comment")
-    public ResponseEntity<Comment> addComment(@RequestBody CommentRecordDTO commentRecordDTO) {
+    public ResponseEntity<CommentResponseDTO> addComment(@RequestBody CommentRecordDTO commentRecordDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(commentService.addComment(commentRecordDTO));
     }
 

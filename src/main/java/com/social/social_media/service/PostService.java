@@ -1,9 +1,6 @@
 package com.social.social_media.service;
 
-import com.social.social_media.dtos.PostRecordDto;
-import com.social.social_media.dtos.PostUpdateRecordDto;
-import com.social.social_media.dtos.PostsMediaDTO;
-import com.social.social_media.dtos.PostsUsernameDTO;
+import com.social.social_media.dtos.*;
 import com.social.social_media.exceptions.UserNotFoundException;
 import com.social.social_media.models.Post;
 import com.social.social_media.models.User;
@@ -31,6 +28,31 @@ public class PostService {
 
     public List<Post> getAllPostUser() {
         return postRepository.findAll();
+    }
+
+    public List<PostByUUIDs> getPostsByUserIds(List<UUID> ids) {
+        // Fetch posts with likes count
+        List<PostByUUIDs> posts = postRepository.findPostsByListUserIds(ids);
+
+        // Extract post IDs to fetch comments
+        List<UUID> postIds = posts.stream()
+                .map(posy -> posy.post().getIdPost())
+                .toList();
+
+        // Fetch comments for each
+
+        List<CommentWoutUserDTO> comments = postRepository.findCommentsByPostIds(postIds);
+
+
+        // Map comments back to their respective posts
+        for (PostByUUIDs posy : posts) {
+            List<CommentWoutUserDTO> filteredComments = comments.stream()
+                    .filter(comment -> comment.postId().equals(posy.post().getIdPost())) // Adjust this logic based on how you relate comments to posts
+                    .toList();
+            posy.comments().addAll(filteredComments); // Assuming you have a way to add comments back to PosyByUUIDs
+        }
+
+        return posts;
     }
 
     public Page<PostsMediaDTO> getAllUserPosts(@PathVariable UUID userId, @RequestBody int page, @RequestBody int size) {

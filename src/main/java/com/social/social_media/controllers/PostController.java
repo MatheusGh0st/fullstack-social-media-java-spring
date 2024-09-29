@@ -1,9 +1,6 @@
 package com.social.social_media.controllers;
 
-import com.social.social_media.dtos.PostRecordDto;
-import com.social.social_media.dtos.PostUpdateRecordDto;
-import com.social.social_media.dtos.PostsMediaDTO;
-import com.social.social_media.dtos.PostsUsernameDTO;
+import com.social.social_media.dtos.*;
 import com.social.social_media.models.Post;
 import com.social.social_media.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 public class PostController {
@@ -31,6 +29,15 @@ public class PostController {
     public ResponseEntity<List<Post>> getAllPostUserId() {
         return ResponseEntity.status(HttpStatus.OK).body(postService.getAllPostUser());
     }
+
+    @PostMapping(value = "/postUUIDs", consumes = "application/json")
+    public ResponseEntity<List<PostByUUIDs>> getAllPostsUUIDs(@RequestBody UUIDsRequest request) {
+        List<UUID> listUUID = request.getUuids().stream()
+                .map(UserFollowerUUID::getIdUserFollowerUUID)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(postService.getPostsByUserIds(listUUID));
+    }
+
 
     @GetMapping("/posts/{userId}")
     public ResponseEntity<Page<PostsMediaDTO>> getUserPosts(

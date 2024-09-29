@@ -1,5 +1,6 @@
 package com.social.social_media.repositories;
 
+import com.social.social_media.dtos.FollowUUIDDTO;
 import com.social.social_media.models.Follow;
 import com.social.social_media.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,4 +22,7 @@ public interface FollowRepository extends JpaRepository<Follow, UUID> {
 
     @Query("SELECT f FROM Follow f WHERE f.followeedId = :user1 AND f.followerId = :user2")
     Follow findByFollowerIdAndFolloweedId(@Param("user1") User user1, @Param("user2") User user2);
+
+    @Query("SELECT new com.social.social_media.dtos.FollowUUIDDTO(f.followerId.idUser) FROM Follow f WHERE f.followeedId = :userId")
+    List<FollowUUIDDTO> findFollowingIdsByUserId(@Param("userId") User userId);
 }
