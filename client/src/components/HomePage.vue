@@ -25,7 +25,7 @@
 
         <Suspense>
           <template #default>
-            <Feed :userObj=null />
+            <Feed :userObj=userObj />
           </template>
           <template #fallback>
             <p>Loading feed...</p>
@@ -45,4 +45,10 @@ import RightMenu from "./rightMenu/RightMenu.vue";
 import Stories from "./Stories.vue";
 import AddPost from "./AddPost.vue";
 import Feed from "./feed/Feed.vue";
+import { useStore } from "vuex";
+import { computed } from "vue";
+
+const store = useStore();
+
+const userObj = computed(() => store.state?.userObj);
 </script>

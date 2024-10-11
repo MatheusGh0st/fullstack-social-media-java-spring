@@ -4,4 +4,4 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.util.UUID;
 
-public record IsLikeDTO(@NotBlank UUID postId, @NotBlank UUID userId) { }
+public record IsLikeDTO(@NotBlank UUID postId, @NotBlank UUID userId, UUID commentId) { }

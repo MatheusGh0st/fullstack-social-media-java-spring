@@ -54,12 +54,12 @@ import { ref } from "vue";
 import AddPostButton from "./AddPostButton.vue";
 import axios from "axios";
 import { z } from "zod";
-// import { useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 
 const APP_HOST = process.env.APP_HOST;
 
 const store = useStore();
-// const router = useRouter();
+const router = useRouter();
 const userId = store.state?.userObj?.user?.idUser;
 const user = store.state?.userObj;
 const description = ref("");
@@ -82,12 +82,13 @@ const addPost = async () => {
       userId: userId
     },
     { headers: { Authorization: `Bearer ${store.state.accessToken}` }});
-
-    // router.replace('/');
+    
     description.value = "";
     imgUrl.value = "";
 
-    console.log(addPostReq);
+    router.go(0);
+
+    return addPostReq.data;
   } catch (err) {
     console.error(err);
   }

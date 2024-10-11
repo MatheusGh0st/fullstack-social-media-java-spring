@@ -1,35 +1,45 @@
 import { createStore } from "vuex";
 import axios from "axios";
+import { useStorage } from '@vueuse/core';
 
 const APP_HOST = process.env.APP_HOST;
 
-const defaultState = {
-  userId: null,
-  userObj: null,
-  accessToken: null,
-  isLogged: null,
-  responseLogin: null,
-};
+const accessToken = useStorage('access-token', null);
+const userId = useStorage('user-id', null);
+const isLogged = useStorage('is-logged', null);
+const userObj = useStorage('user-object', null);
+const responseLogin = useStorage('response-login', null);
 
 const store = createStore({
   state() {
-    return { ...defaultState };
+    return {
+      userId: JSON.parse(userId.value),
+      userObj: JSON.parse(userObj.value),
+      responseLogin: JSON.parse(responseLogin.value),
+      accessToken: accessToken.value,
+      isLogged: !!accessToken.value
+    };
   },
   mutations: {
-    setAccessToken(state, accessToken) {
-      state.accessToken = accessToken;
+    setAccessToken(state, token) {
+      state.accessToken = token;
+      accessToken.value = token;
     },
-    setUserId(state, userId) {
-      state.userId = userId;
+    setUserId(state, id) {
+      state.userId = id;
+      userId.value = JSON.stringify(id);
     },
-    setIsLogged(state, isLogged) {
-      state.isLogged = isLogged;
+    setIsLogged(state, isUserLogged) {
+      state.isLogged = isUserLogged;
+      isLogged.value = isUserLogged;
     },
-    setResponseLogin(state, responseLogin) {
-      state.responseLogin = responseLogin;
+    setResponseLogin(state, respLogin) {
+      state.responseLogin = respLogin;
+      responseLogin.value = JSON.stringify(respLogin);
     },
-    setUserObj(state, userObj) {
-      state.userObj = userObj;
+    setUserObj(state, obj) {
+      state.userObj = obj;
+      userObj.value = JSON.stringify(obj);
     },
   },
   actions: {
@@ -46,12 +56,12 @@ const store = createStore({
           }
         );
         const { token } = response.data;
-        const { userId } = response.data.user.user;
+        const userIdd = response.data.user.user;
         const userObject = response.data.user;
         const userIsLogged = token !== null;
         commit("setUserObj", userObject);
         commit("setResponseLogin", response);
-        commit("setUserId", userId);
+        commit("setUserId", userIdd);
         commit("setAccessToken", token);
         commit("setIsLogged", userIsLogged);
       } catch (error) {

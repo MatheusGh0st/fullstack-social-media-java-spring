@@ -39,12 +39,30 @@ public class LikeService {
         if (user.isEmpty() || post.isEmpty()) {
             return new IsLikeResponseDTO(null, false);
         }
-        Like like = likeRepository.findByPostAndUser(post.get(), user.get());
+        Like like = null;
+        List<Like> likes = null;
+        if (isLikeDTO.commentId() != null) {
+            var comment = commentRepository.findById(isLikeDTO.commentId());
+            like = likeRepository.findByPostAndUserAndComment(post.get(), user.get(), comment.get());
+            if (like == null) {
+                return new IsLikeResponseDTO(null, false);
+            }
+        } else {
+            likes = likeRepository.findByPostAndUser(post.get(), user.get());
+        }
 
         boolean isLiked = likeRepository.existsByPostIdAndUserId(post.get(), user.get());
 
-        if (like != null ) {
+        if (like != null) {
             UUID likeId = like.getIdLike();
+            return new IsLikeResponseDTO(likeId, isLiked);
+        }
+
+        if (likes != null) {
+            UUID likeId = likes.stream()
+                    .map(likeObj -> likeObj.getIdLike()) // Ensure this returns a String
+                    .findFirst() // Use findFirst() to get an Optional<UUID>
+                    .orElse(null); // Provide a default value if no element is found
             return new IsLikeResponseDTO(likeId, isLiked);
         }
         return new IsLikeResponseDTO(null, isLiked);

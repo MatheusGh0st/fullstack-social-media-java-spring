@@ -176,9 +176,11 @@ watch(
   () => followerId.value,
   async () => {
     const followRes = await findFollowerUser();
-    followRes.data === true
-      ? (isFollowing.value = true)
-      : (isFollowing.value = false);
+    if (followRes !== undefined) {
+      followRes.data === true
+        ? (isFollowing.value = true)
+        : (isFollowing.value = false);
+    }
   }
 );
 
