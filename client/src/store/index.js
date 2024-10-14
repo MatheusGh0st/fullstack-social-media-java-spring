@@ -41,6 +41,17 @@ const store = createStore({
       state.userObj = obj;
       userObj.value = JSON.stringify(obj);
     },
+    clearUserData(state) {
+      state.accessToken = null;
+      state.userId = null;
+      state.userObj = null;
+      state.responseLogin = null;
+
+      accessToken.value = null;
+      userId.value = null;
+      userObj.value = null;
+      responseLogin.value = null;
+    }
   },
   actions: {
     async loginUser({ commit }, { email, password }) {
@@ -69,6 +80,10 @@ const store = createStore({
         console.error(`Error in LoginUser index.js : ${error}`);
       }
     },
+    async logoutUser({ commit }) {
+      commit("clearUserData");
+      commit("setIsLogged", false);
+    }
   },
 });
 
