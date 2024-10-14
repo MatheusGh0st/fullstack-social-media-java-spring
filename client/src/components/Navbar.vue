@@ -87,7 +87,7 @@
               class="cursor-pointer"
             />
           </router-link>
-          <router-link to="/profile">
+          <router-link to="/logout">
             <img
               src="../../public/noAvatar.png"
               alt="Profile"
