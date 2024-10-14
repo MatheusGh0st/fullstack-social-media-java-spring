@@ -1,7 +1,6 @@
 package com.social.social_media.controllers;
 
-import com.social.social_media.dtos.StorieRecordDTO;
-import com.social.social_media.dtos.StorieUpdateRecordDTO;
+import com.social.social_media.dtos.*;
 import com.social.social_media.models.Storie;
 import com.social.social_media.service.StorieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,8 +24,25 @@ public class StorieController {
     }
 
     @PostMapping("/storie")
-    public ResponseEntity<Storie> createStorie(@RequestBody StorieRecordDTO storieRecordDTO) {
+    public ResponseEntity<StorieResponseDTO> createStorie(@RequestBody StorieRequestDTO storieRequestDTO) {
+        StorieRecordDTO storieRecordDTO = new StorieRecordDTO(storieRequestDTO.userId(), storieRequestDTO.content(), convertToLocalDateTime(storieRequestDTO.expiresAt()));
         return ResponseEntity.status(HttpStatus.CREATED).body(storieService.createStorie(storieRecordDTO));
+    }
+
+    @GetMapping("/storiesEx")
+    public ResponseEntity<List<StorieWithUserDTO>> getAllStoriesExpiresAtUser(
+            @ModelAttribute StorieGetByDateOrUserStr params)
+    {
+        LocalDateTime dateTime = convertToLocalDateTime(params.dateTime());
+        StorieGetByDateOrUser parameters = new StorieGetByDateOrUser(dateTime, params.userId());
+        List<StorieWithUserDTO> stories = storieService.getStoriesByDateOrUser(parameters);
+
+        return ResponseEntity.ok(stories);
+    }
+
+    private LocalDateTime convertToLocalDateTime(String dateTimeString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return LocalDateTime.parse(dateTimeString, formatter);
     }
 
     @PutMapping("/storie/{id}")
